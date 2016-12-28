@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Employee Directory</title>
+<meta charset="utf-8">
+<meta name="author" content="(c) Mariusz Szypulski 2017">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<link href="ratchet/css/ratchet.css" rel="stylesheet" type="text/css">
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/vue.js"></script>
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/data.js"></script>
+</head>
+<body>
+    <div id="app">
+      <div >
+          <transition name="component-fade" mode="out-in">
+            <keep-alive>
+              <component :is="currentView" v-on:change="changeCurrentView" v-on:search="searchParent" :employees="employees" :employee="employee">
+              </component>
+            </keep-alive>   
+          </transition>
+       </div>
+    </div>
+   
+    <template id="employee-directory-template">
+      <div>
+        <header class="bar bar-nav">
+          <h1 class="title">Employee Directory</h1>
+        </header>
+        <div class="bar bar-standard bar-header-secondary">
+          <input type="search" placeholder="Search..." @input="searchKey($event.target.value)"> 
+        </div>     
+        <div class="content">
+          <ul class="table-view">
+            <li  class="table-view-cell media" v-for="employee in employees">
+              <a  href="#"  @click="changeView('employee-view', employee)" >
+                <img class="media-object small pull-left" v-bind:src="'pics/' + employee.firstName + '_'+ employee.lastName + '.jpg'" />
+                  {{employee.firstName}} {{employee.lastName}}
+                  <p>{{employee.title}}</p>
+              </a> 
+            </li>
+          </ul> 
+        </div>
+      </div> 
+    </template>
+
+    <template id="employee-template" >
+      <div>
+        <header class="bar bar-nav">
+          <a href="#" class="icon icon-left-nav pull-left" @click="changeView('employee-directory-view',{})"></a>
+            <h1 class="title">Employee</h1>
+        </header> 
+        <div class="content">
+          <div class="card">
+            <ul class="table-view">
+              <li class="table-view-cell media">
+                <img class="media-object big pull-left" v-bind:src="'pics/' + employee.firstName + '_'+ employee.lastName + '.jpg'" />
+                <h1>{{employee.firstName}} {{employee.lastName}}</h1>
+                <p>{{employee.title}}</p>
+              </li>
+              <li class="table-view-cell media">
+                <a v-bind:href="'tel:' + employee.officePhone" class="push-right">
+                  <span class="media-object pull-left icon icon-call"></span>
+                  <div class="media-body">
+                    Call Office
+                    <p>{{employee.officePhone}}</p>
+                  </div>
+                </a>
+              </li>
+              <li class="table-view-cell media">
+                <a v-bind:href="'tel:' + employee.mobilePhone" class="push-right">
+                    <span class="media-object pull-left icon icon-call"></span>
+                    <div class="media-body">
+                      Call Mobile
+                      <p>{{employee.mobilePhone}}</p>
+                    </div>
+                </a>
+              </li>
+              <li class="table-view-cell media">
+                <a v-bind:href="'sms:' + employee.mobilePhone" class="push-right">
+                  <span class="media-object pull-left icon icon-sms"></span>
+                  <div class="media-body">
+                    SMS
+                    <p>{{employee.mobilePhone}}</p>
+                  </div>
+                </a>
+              </li>
+              <li class="table-view-cell media">
+                <a v-bind:href="'mailto:' + employee.email" class="push-right">
+                  <span class="media-object pull-left icon icon-email"></span>
+                  <div class="media-body">
+                    Email
+                    <p>{{employee.email}}</p>
+                  </div>
+                </a>
+              </li>
+            </ul>  
+          </div>    
+        </div>
+      </div>  
+    </template>
+     
+    <script>
+      Vue.component('employee-directory-view', {
+        template: '#employee-directory-template',
+        props: ['employees'],
+        methods:{
+          searchKey: function(value){
+            this.$emit('search',value)
+          },
+          changeView: function(currentView, emp){
+            this.$emit('change',currentView,emp)
+          }
+        } 
+      });
+
+      Vue.component('employee-view', {
+        template: '#employee-template',
+        props: ['employee'],
+        methods:{
+          changeView: function(currentView, emp){
+            this.$emit('change',currentView,emp)
+          }
+        }
+      });
+
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          currentView: 'employee-directory-view',
+          employee:{},
+          employees: []
+        },
+        methods: {
+          searchParent: function (k) {
+            var vm = this
+            employeeService.findByName(k).done(function(result){
+              vm.employees = result
+            })
+          },
+          changeCurrentView: function (v,emp) {
+            this.currentView = v,
+            this.employee = emp
+          }
+        }
+      });
+    </script>
+</body>
+</html>
