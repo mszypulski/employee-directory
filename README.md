@@ -3,5 +3,7 @@ I recently spent some time playing with Vue.js, powerfull JavaScript front-end f
 
 ![Employee Directory App](/pics/employee-directory-samsung-app.jpg "Sample Mobile Application with Vue.js and Ratchet")
 
-```If you plan to run the application locally, you can to load it from the file system.```
+```
+If you plan to run the application locally, you can to load it from the file system.
+```
 
