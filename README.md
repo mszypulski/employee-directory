@@ -5,5 +5,3 @@ I recently spent some time playing with Vue.js, powerfull JavaScript front-end f
 
 <pre><code>
 <b>If you plan to run the application locally, you can to load it from the file system.</b>
-
-
