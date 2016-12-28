@@ -4,6 +4,6 @@ I recently spent some time playing with Vue.js, powerfull JavaScript front-end f
 ![Employee Directory App](/pics/employee-directory-samsung-app.jpg "Sample Mobile Application with Vue.js and Ratchet")
 
 <pre><code>
-<b>If you plan to run the application locally, you need to download a project
+<b>If you plan to run the application locally, you need to download a project, save it in a file system
 and open index.html file in a web browser.</b>
 </pre></code>
