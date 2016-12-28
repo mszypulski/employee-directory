@@ -6,4 +6,4 @@ I recently spent some time playing with Vue.js, powerfull JavaScript front-end f
 <pre><code>
 <b>If you plan to run the application locally, you need to download a project
 and open index.html file in a web browser.</b>
-<pre><code>
+</pre></code>
